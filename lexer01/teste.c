@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define NAMES C(MAIS)C(MENOS)C(VEZES)C(DIVIDIR)C(INDETERMINADO)
 #define C(x) x,
@@ -14,11 +15,11 @@ void tokenizar(char *str)
 {
     for (int i = 0; str[i] != '\0'; i++) {
 
-      char *resposta1 = color_name[ MAIS ];
-      char *resposta2 = color_name[ MENOS ];
-      char *resposta3 = color_name[ VEZES ];
-      char *resposta4 = color_name[ DIVIDIR ];
-      char *resposta5 = color_name[ INDETERMINADO ];
+      const char *resposta1 = color_name[ MAIS ];
+      const char *resposta2 = color_name[ MENOS ];
+      const char *resposta3 = color_name[ VEZES ];
+      const char *resposta4 = color_name[ DIVIDIR ];
+      const char *resposta5 = color_name[ INDETERMINADO ];
     
       switch(str[i])
       {
@@ -49,10 +50,28 @@ void tokenizar(char *str)
 
 void lexer(void)
 {
+  FILE *fp;
+  char *line = NULL;        ////// VARIAVEIS UTILIZADAS PARA  ///////
+  size_t len = 0;           ////// LEITURA DE entrada.txt     /////// 
+  size_t read;
+  //////////////////////////////////////////////////////////////////////////
+  fp = fopen("entrada.txt", "r"); //abre arquivo entrada.txt
+  if (fp == NULL) //valida se arquivo esta em branco
+    exit(EXIT_FAILURE);
+  
+  while ((read = getline(&line, &len, fp)) != -1) { // enquanto a linha do entrada.txt estiver preenchida
+   
+    printf("TOKENS: [\n\n");
+    tokenizar(line);
+    printf("\n]");
+      
+  }
 
-  printf("TOKENS: [\n\n");
-  tokenizar(" + -%*/ ()/* ");
-  printf("\n]");
+  fclose(fp); // fecha arquivo entrada.txt
+  
+  if (line) // verifica cada linha preenchida
+    free(line); //libera memoria
+  exit(EXIT_SUCCESS); //sai do programa
 
 }
 
