@@ -1,7 +1,7 @@
-.PHONY: lexer
+.PHONY: build
 
-lexer: main
+build: main
 	./main
 
-main: main.c teste.c teste.h
-	gcc -W -Wall -std=c11 -pedantic main.c teste.c -o main
+main: main.c
+	gcc -W -Wall -std=c11 -pedantic main.c -o main
